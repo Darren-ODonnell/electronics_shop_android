@@ -1,0 +1,37 @@
+
+
+If selection = all -> no parm sent to api
+eg.
+players = all
+statsViews = all
+time = fixture_date
+
+send fixture_date (as string) to endpoint
+
+TODO
+return blocks per season (count of blocks per game)
+
+parse list by player
+-> ListAisling: [1]
+-> listNiamh: [1,4,3]
+
+Use MultiViewTypeAdapter to:
+display count for Aisling
+display graph for Niamh
+
+TODO
+Find way to have options in dropdown for all
+TODO
+Find way to have options in dropdown for seasons
+
+TODO
+Fix StatsScreen Layout
+
+20/11/2022 TODO
+StatsRepository for other statsViews returned.
+if locaiton based statsView -> gridLayout -> else statsDisplay
+change navToGridLayout from statsViews display to an if statement above.
+statsView display for graph
+
+todo ->
+Modify HeatMap to have a ( i ) button which opens up a fragment for explaining the % and colours

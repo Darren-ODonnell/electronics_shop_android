@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="637dp"
+    android:paddingTop="16dp"
+    tools:context=".StatsFragment">
+
+    <ImageButton
+        android:id="@+id/info_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="right"
+        android:background="@drawable/shadow_button_layer_list"
+
+        android:src="@drawable/ic_outline_info_24"
+
+        app:iconSize="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@color/green4"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_button">
+
+        <TextView
+            android:id="@+id/heatmap_player"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/heatmap_stat"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/heatmap_fixture"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView"
+            android:textAlignment="center"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="411dp"
+        android:layout_height="461dp"
+        android:background="@drawable/ic_cropped_gaelic_football_pitch_diagram_1673957331125"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+
+        <TextView
+            android:id="@+id/pitchGridA1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridA2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridA3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="4"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridB1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridB2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridB3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="3"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridC1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridC2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridC3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="2"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridD1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridD2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridD3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="1"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridE1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="0"
+            app:layout_columnWeight="3"
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridE2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="1"
+            app:layout_columnWeight="3"
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
+
+        <TextView
+            android:id="@+id/pitchGridE3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="TextView"
+            android:textColor="@color/black"
+            app:layout_column="2"
+            app:layout_columnWeight="3"
+            app:layout_row="0"
+            app:layout_rowWeight="5" />
+    </androidx.gridlayout.widget.GridLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
