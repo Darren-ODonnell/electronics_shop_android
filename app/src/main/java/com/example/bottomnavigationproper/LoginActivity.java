@@ -73,27 +73,15 @@ public class LoginActivity extends AppCompatActivity {
             Login loginObj = new Login(username, password);
             viewModel.login(loginObj);
 
-            viewModel.getSingPlayerResponseLiveData().observe(this, new Observer<Player>() {
-                @Override
-                public void onChanged(Player player) {
-                    UserSingleton.getInstance().setPlayer(player);
-                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
-                }
-            });
-
 
         });
     }
 
     private void loginFromInput(){
         storeTokenAndUser(getApplicationContext());
-        if(!UserSingleton.getInstance().isAdminOrCoach()) {
-            viewModel.getPlayerByEmail(
-                    UserSingleton.getInstance().getUser()
-            );
-        }else{
-            startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
-        }
+
+        startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+
 
 
     }
@@ -108,18 +96,13 @@ public class LoginActivity extends AppCompatActivity {
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
 
-        Gson gson = new Gson();
-        String jsonString = gson.toJson(UserSingleton.getInstance().getUser());
-        editor.putString(USER, jsonString);
         // Commit the edits!
         editor.apply();
     }
 
     @Override
     protected void onStop() {
-        if(viewModel.getSingPlayerResponseLiveData() != null) {
-            viewModel.getSingPlayerResponseLiveData().removeObservers(this);
-        }
+
         viewModel.getTokenValidityLiveData().removeObservers(this);
         storeTokenAndUser(getApplicationContext());
         super.onStop();

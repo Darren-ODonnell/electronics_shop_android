@@ -1,13 +1,13 @@
 package com.example.bottomnavigationproper.Models;
 
-import java.util.Set;
-
 public class Register {
     private String username;
 
     private String password;
 
-    private String email;
+    private String paymentMethod;
+
+    private String shippingAddress;
 
     private String passwordConfirm;
 
@@ -17,12 +17,20 @@ public class Register {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
+    public String getPaymentMethod() {
+        return paymentMethod;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
     }
 
     public String getPassword() {

@@ -40,7 +40,7 @@
         android:textSize="15sp" />
 
     <EditText
-        android:id="@+id/email_reg"
+        android:id="@+id/payment_method"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="20dp"
@@ -48,10 +48,25 @@
         android:layout_marginBottom="10dp"
         android:background="@drawable/et_custom"
         android:backgroundTint="@color/pink1"
-        android:drawableLeft="@drawable/ic_baseline_email_24"
         android:drawablePadding="2dp"
         android:fontFamily="@font/roboto_regular"
-        android:hint="@string/e_mail"
+        android:hint="Payment Method"
+        android:inputType="textEmailAddress"
+        android:padding="15dp"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/shipping_address"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/et_custom"
+        android:backgroundTint="@color/pink1"
+        android:drawablePadding="2dp"
+        android:fontFamily="@font/roboto_regular"
+        android:hint="Shipping Address"
         android:inputType="textEmailAddress"
         android:padding="15dp"
         android:textSize="15sp" />

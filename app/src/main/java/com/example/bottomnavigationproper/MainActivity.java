@@ -9,12 +9,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.preference.PreferenceManager;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Player;
-import com.example.bottomnavigationproper.Services.LoginRepository;
-import com.example.bottomnavigationproper.ViewModels.GameViewModel;
 import com.example.bottomnavigationproper.ViewModels.LoginViewModel;
 import com.google.gson.Gson;
 
@@ -43,17 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void validateJWT(){
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-
         viewModel.init();
         String token = retrieveToken();
 
-        viewModel.getSingPlayerResponseLiveData().observe(this, new Observer<Player>() {
-            @Override
-            public void onChanged(Player player) {
-                UserSingleton.getInstance().setPlayer(player);
-                startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
-            }
-        });
 
         viewModel.getTokenValidityLiveData().observe(this, new Observer<Boolean>() {
             @Override
@@ -61,12 +50,7 @@ public class MainActivity extends AppCompatActivity {
                 if(aBoolean){
                     TokenSingleton.getInstance().setTokenString(token);
                     UserSingleton.getInstance().setUser(retrieveUser());
-                    if(!UserSingleton.getInstance().isAdminOrCoach()) {
-                        viewModel.getPlayerByEmail(
-                                UserSingleton.getInstance().getUser()
-                        );
-                    }else
-                        startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
+                    startActivity(new Intent(getApplicationContext(), BottomNavActivity.class));
                     storeToken(getApplicationContext());
                 }else{
                     buildRegisterLoginScreen();
@@ -126,9 +110,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        if(viewModel.getSingPlayerResponseLiveData().hasObservers()){
-            viewModel.getSingPlayerResponseLiveData().removeObservers(this);
-        }
 
         viewModel.getTokenValidityLiveData().removeObservers(this);
         super.onStop();

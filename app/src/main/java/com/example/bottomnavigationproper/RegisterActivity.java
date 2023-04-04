@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Register;
 import com.example.bottomnavigationproper.Services.LoginRepository;
-import com.example.bottomnavigationproper.Services.PlayerRepository;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -31,32 +30,25 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         loginFromInput();
-//        returnToRegister();
-//
     }
-
-//    private void returnToRegister() {
-//        findViewById(R.id.navigate_to_register).setOnClickListener(v -> {
-//            startActivity(new Intent(this, MainActivity.class));
-//        });
-//    }
 
     public void loginFromInput(){
         LoginRepository service = new LoginRepository();
 
         findViewById(R.id.btn_register).setOnClickListener(v -> {
-            String email = getTextFromEditText(R.id.email_reg);
+            String paymentMethod = getTextFromEditText(R.id.payment_method);
+            String shippingAddress = getTextFromEditText(R.id.shipping_address);
             String username = getTextFromEditText(R.id.name_reg);
             String password = getTextFromEditText(R.id.password_reg);
             String passwordConfirm = getTextFromEditText(R.id.password_conf_reg);
 
 
-
             Register regObj = new Register();
-            regObj.setEmail(email);
+            regObj.setPaymentMethod(paymentMethod);
             regObj.setUsername(username);
             regObj.setPassword(password);
             regObj.setPasswordConfirm(passwordConfirm);
+            regObj.setShippingAddress(shippingAddress);
             service.register(regObj);
             storeToken(getApplicationContext());
 
@@ -74,7 +66,7 @@ public class RegisterActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = settings.edit();
 
         editor.putString(API_KEY, TokenSingleton.getInstance().getTokenStr());
-        // Commit the edits!
+
         editor.apply();
     }
 

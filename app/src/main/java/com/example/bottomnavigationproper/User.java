@@ -1,16 +1,16 @@
 package com.example.bottomnavigationproper;
 
-import com.example.bottomnavigationproper.Models.Fellowship;
-
+import java.util.ArrayList;
 import java.util.List;
 
 public class User {
-    private int id;
-    private String email;
+    private Integer id;
     private String accessToken;
     private final String tokenType = "Bearer";
-    private List<String> roles;
-    private Fellowship fellow;
+    private String username;
+    private String shippingAddress;
+    private String paymentMethod;
+    private List<String> roles = new ArrayList<>();
 
 
     public User(){}
@@ -23,13 +23,6 @@ public class User {
         this.id = id;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getAccessToken() {
         return accessToken;
@@ -51,12 +44,28 @@ public class User {
         this.roles = roles;
     }
 
-    public Fellowship getFellow() {
-        return fellow;
+    public String getUsername() {
+        return username;
     }
 
-    public void setFellow(Fellowship fellow) {
-        this.fellow = fellow;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getShippingAddress() {
+        return shippingAddress;
+    }
+
+    public void setShippingAddress(String shippingAddress) {
+        this.shippingAddress = shippingAddress;
+    }
+
+    public String getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(String paymentMethod) {
+        this.paymentMethod = paymentMethod;
     }
 }
 
