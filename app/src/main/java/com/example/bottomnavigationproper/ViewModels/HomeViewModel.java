@@ -43,4 +43,8 @@ public class HomeViewModel extends AndroidViewModel {
     public void updateItem(Item item) {
         itemRepository.update(TokenSingleton.getInstance().getBearerTokenString(), item);
     }
+
+    public void search(String attributeFilter, String searchPrompt) {
+        itemRepository.search(TokenSingleton.getInstance().getBearerTokenString(), attributeFilter, searchPrompt);
+    }
 }

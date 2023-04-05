@@ -24,23 +24,20 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.bottomnavigationproper.Adapters.ItemAdapter;
+import com.example.bottomnavigationproper.CartCommands.AddStockCommand;
+import com.example.bottomnavigationproper.CartCommands.Command;
+import com.example.bottomnavigationproper.CartCommands.RemoveStockCommand;
 import com.example.bottomnavigationproper.Models.Item;
-import com.example.bottomnavigationproper.Models.Order;
-import com.example.bottomnavigationproper.Models.OrderItem;
-import com.example.bottomnavigationproper.Sorting.CategorySortingStrategy;
-import com.example.bottomnavigationproper.Sorting.ManufacturerSortingStrategy;
-import com.example.bottomnavigationproper.Sorting.PriceSortingStrategy;
-import com.example.bottomnavigationproper.Sorting.SortingStrategy;
-import com.example.bottomnavigationproper.Sorting.TitleSortingStrategy;
+import com.example.bottomnavigationproper.Models.OrderModel;
+import com.example.bottomnavigationproper.SortingStrategy.CategorySortingStrategy;
+import com.example.bottomnavigationproper.SortingStrategy.ManufacturerSortingStrategy;
+import com.example.bottomnavigationproper.SortingStrategy.PriceSortingStrategy;
+import com.example.bottomnavigationproper.SortingStrategy.SortingStrategy;
+import com.example.bottomnavigationproper.SortingStrategy.TitleSortingStrategy;
 import com.example.bottomnavigationproper.ViewModels.HomeViewModel;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class HomeFragment extends Fragment {
 
@@ -54,7 +51,7 @@ public class HomeFragment extends Fragment {
 
     ItemAdapter adapter = new ItemAdapter();
 
-    Order order = new Order();
+    OrderModel orderModel = new OrderModel();
 
     String spinnerSelection;
 
@@ -95,12 +92,12 @@ public class HomeFragment extends Fragment {
     private void initView() {
         populateUserName();
         populateItems();
-        populateSpinner();
         initButtons();
 
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     private void initButtons() {
         Button searchButton = view.findViewById(R.id.search_button);
         Button filterButton = view.findViewById(R.id.filter_button);
@@ -115,8 +112,6 @@ public class HomeFragment extends Fragment {
         });
 
         filterButton.setOnClickListener(v ->{
-            String attributeFilter = spinnerSelection;
-
             filterItems(spinnerSelection);
         });
     }
@@ -141,11 +136,13 @@ public class HomeFragment extends Fragment {
 
         }
         recyclerItems = sortingStrategy.sort(recyclerItems);
+        adapter.setResults(recyclerItems);
+        adapter.notifyDataSetChanged();
     }
 
 
     private void populateSpinner() {
-        Spinner spinner = view.findViewById(R.id.sort_item_spinner);
+        Spinner spinner = view.findViewById(R.id.spinner_sort);
         setSpinnerList(spinner);
     }
 
@@ -178,9 +175,8 @@ public class HomeFragment extends Fragment {
         list.add("title");
         list.add("price");
 
-
         ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getContext(),  R.layout.spinner_sort, list);
+                new ArrayAdapter<String>(getContext(), R.layout.spinner_item, list);
         adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
@@ -199,7 +195,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_home, container, false);
-
+        populateSpinner();
 
         return view;
     }
@@ -215,26 +211,30 @@ public class HomeFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         int position = adapter.getPosition();
         int itemId = item.getItemId();
+        Command command;
         if (itemId == 1) { // "Add to cart" option
             if (UserSingleton.getInstance().isAdmin()) {
-                addStock(recyclerItems.get(position));
+                command = new AddStockCommand(viewModel, recyclerItems.get(position));
             } else {
-                decreaseStock(recyclerItems.get(position));
+                ShoppingCartSingleton.getInstance().addToCart(recyclerItems.get(position));
+                command = new RemoveStockCommand(viewModel, recyclerItems.get(position));
 
             }
+            command.execute();
             return true;
         } else if (itemId == 2) { // "Remove from cart" option
             if (UserSingleton.getInstance().isAdmin()) {
-                decreaseStock(recyclerItems.get(position));
-                addToCart(recyclerItems.get(position));
+                command = new AddStockCommand(viewModel, recyclerItems.get(position));
+                ShoppingCartSingleton.getInstance().removeFromCart(recyclerItems.get(position));
             } else {
-                addStock(recyclerItems.get(position));
-                removeFromCart(recyclerItems.get(position));
+                command = new RemoveStockCommand(viewModel, recyclerItems.get(position));
             }
+            command.execute();
             return true;
         } else {
             return super.onContextItemSelected(item);
         }
+
     }
     public void addStock(Item item){
         item.setStock(item.getStock() + 1);
@@ -245,34 +245,6 @@ public class HomeFragment extends Fragment {
         item.setStock(item.getStock() - 1);
         viewModel.updateItem(item);
     }
-
-    public void addToCart(Item item){
-        boolean itemAlreadyInList = false;
-        for (OrderItem orderItem : order.getOrderItems()) {
-            if (orderItem.getItem().equals(item)) {
-                orderItem.setQuantity(orderItem.getQuantity() + 1);
-                itemAlreadyInList = true;
-                break;
-            }
-        }
-        if (!itemAlreadyInList) {
-            order.getOrderItems().add(new OrderItem(order, item, 1));
-        }
-    }
-
-    public void removeFromCart(Item item){
-        for (OrderItem orderItem : order.getOrderItems()) {
-            if (orderItem.getItem().equals(item)) {
-                if(orderItem.getQuantity() == 1){
-                    order.getOrderItems().remove(orderItem);
-                }else{
-                    orderItem.setQuantity(orderItem.getQuantity() - 1);
-                }
-            }
-        }
-    }
-
-
 
     @Override
     public void onStop() {

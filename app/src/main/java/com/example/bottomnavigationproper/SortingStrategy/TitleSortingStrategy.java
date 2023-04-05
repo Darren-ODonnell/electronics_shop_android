@@ -1,4 +1,4 @@
-package com.example.bottomnavigationproper.Sorting;
+package com.example.bottomnavigationproper.SortingStrategy;
 
 import com.example.bottomnavigationproper.Models.Item;
 

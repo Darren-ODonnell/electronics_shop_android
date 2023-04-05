@@ -7,6 +7,11 @@ public class OrderItemModel {
     public OrderItemModel() {
     }
 
+    public OrderItemModel(Integer id, int i) {
+        this.item_id = id;
+        this.quantity = i;
+    }
+
     public Integer getItem_id() {
         return item_id;
     }

@@ -34,9 +34,6 @@ public interface APIInterface {
     @GET("api/auth/checkToken")
     Call<Boolean> checkToken(@Query("token") String token);
 
-    @GET("player/list")
-    Call<List<Player>> getPlayers(@Header("Authorization") String accessToken);
-
 
     // NEW
     @GET("items/list")
@@ -46,7 +43,11 @@ public interface APIInterface {
     Call<List<Order>> getCustomerOrders(@Header("Authorization") String accessToken);
 
     @POST("items/update")
-    Call<List<Order>> updateItem(@Header("Authorization") String accessToken, @Body Item item);
+    Call<List<Item>> updateItem(@Header("Authorization") String accessToken, @Body Item item);
+
+    @GET("items/search")
+    Call<List<Item>> search(@Header("Authorization") String accessToken,
+                            @QueryMap Map<String, String> params);
 
     @POST("orders/add")
     Call<Order> addOrder(@Header("Authorization") String accessToken, @Body OrderModel orderModel);

@@ -89,7 +89,7 @@
 />
 
                     <Spinner
-                        android:id="@+id/sort_item_spinner"
+                        android:id="@+id/spinner_sort"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:autofillHints="Sort Attribute"

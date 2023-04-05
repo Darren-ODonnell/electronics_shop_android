@@ -53,19 +53,35 @@ public class ItemRepository {
     public void update(String token, Item item) {
 
         apiInterface.updateItem(token, item)
-                .enqueue(new Callback<Item>() {
+                .enqueue(new Callback<List<Item>>() {
                     @Override
-                    public void onResponse(Call<Item> call, Response<Item> response) {
+                    public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
                         if(response.body() != null)
                             itemResponseLiveData.postValue(response.body());
-
                     }
 
                     @Override
-                    public void onFailure(Call<Item> call, Throwable t) {
-                        itemResponseLiveData.postValue(null);
+                    public void onFailure(Call<List<Item>> call, Throwable t) {
+                            itemResponseLiveData.postValue(null);
                     }
                 });
     }
-}
 
+    public void search(String token, String attributeFilter, String searchPrompt) {
+        HashMap<String, String> params = new HashMap<>();
+        params.put("attributeFilter", attributeFilter);
+        params.put("searchPrompt", searchPrompt);
+        apiInterface.search(token, params).enqueue(new Callback<List<Item>>() {
+            @Override
+            public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
+                itemResponseLiveData.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<List<Item>> call, Throwable t) {
+                itemResponseLiveData.postValue(null);
+            }
+        });
+
+    }
+}

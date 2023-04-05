@@ -1,10 +1,8 @@
-package com.example.bottomnavigationproper.Sorting;
+package com.example.bottomnavigationproper.SortingStrategy;
 
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
-
-import com.example.bottomnavigationproper.Models.Item;
 
 import java.util.Comparator;
 import java.util.List;
