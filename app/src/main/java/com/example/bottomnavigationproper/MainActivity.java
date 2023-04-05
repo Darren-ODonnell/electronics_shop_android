@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String API_KEY = "jwt_token";
     public static final String USER = "logged_in_user";
 
-    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = false;
+    private static final boolean DEBUG_LOGIN_WITHOUT_JWT = true;
 
 
     LoginViewModel viewModel;
@@ -110,8 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
-        viewModel.getTokenValidityLiveData().removeObservers(this);
+        if(viewModel.getTokenValidityLiveData() != null) {
+            viewModel.getTokenValidityLiveData().removeObservers(this);
+        }
         super.onStop();
 
     }

@@ -1,19 +1,14 @@
 package com.example.bottomnavigationproper.Models;
 
 
+
 public class Item {
     private Integer id;
-
     private String title;
-
     private String manufacturer;
-
     private String category;
-
     private Double price;
-
     private String image;
-
     private Integer stock;
 
     public Item() {

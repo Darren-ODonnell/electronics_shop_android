@@ -26,17 +26,27 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
                 android:gravity="center_horizontal|center_vertical"
+                android:weightSum="5"
                 android:orientation="vertical">
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/order_items_RV"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="4"
+                    android:layout_margin="8dp"
+                    android:background="@color/green5"
+
+                    android:minHeight="200dp" />
 
                 <ImageButton
                     android:id="@+id/statsDisplayButton"
                     android:layout_width="48dp"
-                    android:layout_height="48dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shadow_button_layer_list"
 

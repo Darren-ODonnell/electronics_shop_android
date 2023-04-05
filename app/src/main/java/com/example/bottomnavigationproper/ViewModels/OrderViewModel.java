@@ -21,6 +21,9 @@ public class OrderViewModel extends AndroidViewModel {
         private LiveData<List<Order>> customerOrderResponseLiveData;
         private LiveData<Order> singleOrderLiveData;
 
+        private ItemRepository itemRepository;
+        private LiveData<List<Item>> itemResponseLiveData;
+
         public OrderViewModel(@NonNull Application application) {
             super(application);
         }
@@ -29,6 +32,9 @@ public class OrderViewModel extends AndroidViewModel {
             orderRepository = new OrderRepository();
             customerOrderResponseLiveData = orderRepository.getOrderResponseLiveData();
             singleOrderLiveData = orderRepository.getSingleOrderLiveData();
+
+            itemRepository = new ItemRepository();
+            itemResponseLiveData = itemRepository.getItemResponseLiveData();
         }
 
         public void getOrders(){
@@ -43,6 +49,15 @@ public class OrderViewModel extends AndroidViewModel {
         public void add(OrderModel orderModel){
             orderRepository.add(TokenSingleton.getInstance().getBearerTokenString(), orderModel);
         }
+
+        public void getItems(){
+            itemRepository.getItems(TokenSingleton.getInstance().getBearerTokenString());
+        }
+
+
+        public LiveData<List<Item>> getItemsResponseLiveData(){
+        return itemResponseLiveData;
+    }
 
         public LiveData<Order> getSingleOrderLiveData(){
             return singleOrderLiveData;

@@ -5,25 +5,19 @@ import com.example.bottomnavigationproper.Models.Item;
 import com.example.bottomnavigationproper.Models.OrderItemModel;
 import com.example.bottomnavigationproper.Models.OrderModel;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class ShoppingCartSingleton {
 
     private static ShoppingCartSingleton instance;
 
-    private OrderModel shoppingCart;
+    private OrderModel shoppingCart = new OrderModel();
 
-    private Command addCommand;
-    private Command removeCommand;
+    private ShoppingCartSingleton() {
 
-    private ShoppingCartSingleton(Command addCommand, Command removeCommand) {
-        this.addCommand = addCommand;
-        this.removeCommand = removeCommand;
-    }
-
-    public static ShoppingCartSingleton getInstance(Command addCommand, Command removeCommand) {
-        if (instance == null) {
-            instance = new ShoppingCartSingleton(addCommand, removeCommand);
-        }
-        return instance;
     }
 
     public static ShoppingCartSingleton getInstance(){
@@ -40,27 +34,34 @@ public class ShoppingCartSingleton {
         this.shoppingCart = shoppingCart;
     }
 
-    public void addToCart(Item item){
-        boolean itemAlreadyInList = false;
-        for (OrderItemModel orderItemModel : shoppingCart.getOrderItemModels()) {
-            if (orderItemModel.getItem_id().equals(item.getId())) {
-                orderItemModel.setQuantity(orderItemModel.getQuantity() + 1);
-                itemAlreadyInList = true;
-                break;
+    public void addToCart(Item item) {
+        if (shoppingCart.getOrderItemModels() == null) {
+            List<OrderItemModel> orderItemModels = new ArrayList<>();
+            orderItemModels.add(new OrderItemModel(item.getId(), 1));
+            shoppingCart.setOrderItemModels(orderItemModels);
+        } else {
+            Map<Integer, OrderItemModel> orderItemModelMap = new HashMap<>();
+            for (OrderItemModel orderItemModel : shoppingCart.getOrderItemModels()) {
+                orderItemModelMap.put(orderItemModel.getItem_id(), orderItemModel);
             }
-        }
-        if (!itemAlreadyInList) {
-            shoppingCart.getOrderItemModels().add(new OrderItemModel(item.getId(), 1));
+            if (orderItemModelMap.containsKey(item.getId())) {
+                OrderItemModel orderItemModel = orderItemModelMap.get(item.getId());
+                orderItemModel.setQuantity(orderItemModel.getQuantity() + 1);
+            } else {
+                shoppingCart.getOrderItemModels().add(new OrderItemModel(item.getId(), 1));
+            }
         }
     }
 
     public void removeFromCart(Item item){
-        for (OrderItemModel orderItemModel : shoppingCart.getOrderItemModels()) {
-            if (orderItemModel.getItem_id().equals(item.getId())) {
-                if(orderItemModel.getQuantity() == 1){
-                    shoppingCart.getOrderItemModels().remove(orderItemModel);
-                }else{
-                    orderItemModel.setQuantity(orderItemModel.getQuantity() - 1);
+        if (!shoppingCart.getOrderItemModels().isEmpty()) {
+            for (OrderItemModel orderItemModel : shoppingCart.getOrderItemModels()) {
+                if (orderItemModel.getItem_id().equals(item.getId())) {
+                    if (orderItemModel.getQuantity() == 1) {
+                        shoppingCart.getOrderItemModels().remove(orderItemModel);
+                    } else {
+                        orderItemModel.setQuantity(orderItemModel.getQuantity() - 1);
+                    }
                 }
             }
         }

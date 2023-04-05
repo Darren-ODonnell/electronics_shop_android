@@ -220,30 +220,24 @@ public class HomeFragment extends Fragment {
                 command = new RemoveStockCommand(viewModel, recyclerItems.get(position));
 
             }
+            adapter.notifyDataSetChanged();
             command.execute();
             return true;
         } else if (itemId == 2) { // "Remove from cart" option
             if (UserSingleton.getInstance().isAdmin()) {
+                command = new RemoveStockCommand(viewModel, recyclerItems.get(position));
+            } else {
                 command = new AddStockCommand(viewModel, recyclerItems.get(position));
                 ShoppingCartSingleton.getInstance().removeFromCart(recyclerItems.get(position));
-            } else {
-                command = new RemoveStockCommand(viewModel, recyclerItems.get(position));
+
             }
+            adapter.notifyDataSetChanged();
             command.execute();
             return true;
         } else {
             return super.onContextItemSelected(item);
         }
 
-    }
-    public void addStock(Item item){
-        item.setStock(item.getStock() + 1);
-        viewModel.updateItem(item);
-    }
-
-    public void decreaseStock(Item item){
-        item.setStock(item.getStock() - 1);
-        viewModel.updateItem(item);
     }
 
     @Override
