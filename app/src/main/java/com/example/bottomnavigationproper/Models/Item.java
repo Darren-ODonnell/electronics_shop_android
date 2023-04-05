@@ -1,6 +1,7 @@
 package com.example.bottomnavigationproper.Models;
 
 
+import java.util.List;
 
 public class Item {
     private Integer id;
@@ -10,6 +11,7 @@ public class Item {
     private Double price;
     private String image;
     private Integer stock;
+    private List<ItemReview> itemReviews;
 
     public Item() {
     }
@@ -68,5 +70,13 @@ public class Item {
 
     public void setStock(Integer stock) {
         this.stock = stock;
+    }
+
+    public List<ItemReview> getItemReviews() {
+        return itemReviews;
+    }
+
+    public void setItemReviews(List<ItemReview> itemReviews) {
+        this.itemReviews = itemReviews;
     }
 }

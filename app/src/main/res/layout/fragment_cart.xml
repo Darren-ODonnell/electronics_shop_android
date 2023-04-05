@@ -5,7 +5,7 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".StatsFragment">
+    tools:context=".CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -42,17 +42,13 @@
 
                     android:minHeight="200dp" />
 
-                <ImageButton
-                    android:id="@+id/statsDisplayButton"
-                    android:layout_width="48dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
+                <Button
+                    android:id="@+id/checkoutButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:background="@drawable/shadow_button_layer_list"
-
-                    android:src="@drawable/ic_barchart"
-
-                    app:iconSize="24dp" />
+                    android:text="Check\nOut" />
 
             </LinearLayout>
 

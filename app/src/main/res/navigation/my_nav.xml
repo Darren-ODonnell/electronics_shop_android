@@ -14,9 +14,9 @@
         app:startDestination="@id/statsFragment">
         <fragment
             android:id="@+id/statsFragment"
-            android:name="com.example.bottomnavigationproper.StatsFragment"
+            android:name="com.example.bottomnavigationproper.CartFragment"
             android:label="fragment_stats"
-            tools:layout="@layout/fragment_stats">
+            tools:layout="@layout/fragment_cart">
             <action
                 android:id="@+id/action_statsFragment_to_statsDisplayFragment"
                 app:destination="@id/statsDisplayFragment" />

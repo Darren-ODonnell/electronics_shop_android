@@ -2,6 +2,8 @@ package com.example.bottomnavigationproper.APIs;
 
 import com.example.bottomnavigationproper.Models.Item;
 import com.example.bottomnavigationproper.Models.ItemModel;
+import com.example.bottomnavigationproper.Models.ItemReview;
+import com.example.bottomnavigationproper.Models.ItemReviewModel;
 import com.example.bottomnavigationproper.Models.Login;
 import com.example.bottomnavigationproper.Models.Order;
 import com.example.bottomnavigationproper.Models.OrderModel;
@@ -51,4 +53,8 @@ public interface APIInterface {
 
     @POST("orders/add")
     Call<Order> addOrder(@Header("Authorization") String accessToken, @Body OrderModel orderModel);
+
+    @POST("itemReview/add")
+    Call<List<ItemReview>> addItemReview(@Header("Authorization") String accessToken,
+                                         @Body ItemReviewModel itemReviewModel);
 }

@@ -2,23 +2,13 @@ package com.example.bottomnavigationproper.Models;
 
 import com.example.bottomnavigationproper.User;
 
-public class ItemReview {
-    private Integer id;
+public class ItemReviewModel {
+        private User user;
+        private Item item;
+        private Integer rating;
+        private String comment;
 
-    private User user;
-
-    private Item item;
-
-    private Integer rating;
-
-    private String comment;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+    public ItemReviewModel() {
     }
 
     public User getUser() {

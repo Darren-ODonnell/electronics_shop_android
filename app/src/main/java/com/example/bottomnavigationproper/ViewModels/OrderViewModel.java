@@ -1,16 +1,21 @@
 package com.example.bottomnavigationproper.ViewModels;
 
 import android.app.Application;
+import android.media.session.MediaSession;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Models.Item;
+import com.example.bottomnavigationproper.Models.ItemReview;
+import com.example.bottomnavigationproper.Models.ItemReviewModel;
 import com.example.bottomnavigationproper.Models.Order;
 import com.example.bottomnavigationproper.Models.OrderModel;
 import com.example.bottomnavigationproper.Services.ItemRepository;
+import com.example.bottomnavigationproper.Services.ItemReviewRepository;
 import com.example.bottomnavigationproper.Services.OrderRepository;
 
 import java.util.List;
@@ -24,6 +29,9 @@ public class OrderViewModel extends AndroidViewModel {
         private ItemRepository itemRepository;
         private LiveData<List<Item>> itemResponseLiveData;
 
+        private LiveData<List<ItemReview>> itemReviewResponseLiveData;
+        private ItemReviewRepository itemReviewRepository;
+
         public OrderViewModel(@NonNull Application application) {
             super(application);
         }
@@ -35,6 +43,9 @@ public class OrderViewModel extends AndroidViewModel {
 
             itemRepository = new ItemRepository();
             itemResponseLiveData = itemRepository.getItemResponseLiveData();
+
+            itemReviewRepository = new ItemReviewRepository();
+            itemReviewResponseLiveData = new MutableLiveData<>();
         }
 
         public void getOrders(){
@@ -46,7 +57,7 @@ public class OrderViewModel extends AndroidViewModel {
             return customerOrderResponseLiveData;
         }
 
-        public void add(OrderModel orderModel){
+        public void addOrder(OrderModel orderModel){
             orderRepository.add(TokenSingleton.getInstance().getBearerTokenString(), orderModel);
         }
 
@@ -62,6 +73,13 @@ public class OrderViewModel extends AndroidViewModel {
         public LiveData<Order> getSingleOrderLiveData(){
             return singleOrderLiveData;
         }
-        //TODO on checkout display order items and ask for review
+
+        public void addReview(ItemReviewModel review) {
+            itemReviewRepository.add(TokenSingleton.getInstance().getBearerTokenString(), review);
+        }
+
+
+
+    //TODO on checkout display order items and ask for review
 
 }

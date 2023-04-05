@@ -17,9 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.example.bottomnavigationproper.Models.Item;
 import com.example.bottomnavigationproper.Models.Order;
-import com.example.bottomnavigationproper.ViewModels.HomeViewModel;
 import com.example.bottomnavigationproper.ViewModels.OrderViewModel;
 import com.example.bottomnavigationproper.databinding.BottomNavBinding;
 
@@ -113,7 +111,7 @@ public class BottomNavActivity extends AppCompatActivity {
                     replaceFragment(new HomeFragment());
                     break;
                 case R.id.statsFragment:
-                    replaceFragment(new StatsFragment());
+                    replaceFragment(new CartFragment());
                     break;
             }
             return true;

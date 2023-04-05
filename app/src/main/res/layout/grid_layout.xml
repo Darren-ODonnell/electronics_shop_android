@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="637dp"
     android:paddingTop="16dp"
-    tools:context=".StatsFragment">
+    tools:context=".CartFragment">
 
     <ImageButton
         android:id="@+id/info_button"

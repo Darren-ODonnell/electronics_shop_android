@@ -114,6 +114,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
             categoryTV = itemView.findViewById(R.id.category_tv);
             imageTV = itemView.findViewById(R.id.image_tv);
             stockTV = itemView.findViewById(R.id.stock_tv);
+
         }
 
         @Override
