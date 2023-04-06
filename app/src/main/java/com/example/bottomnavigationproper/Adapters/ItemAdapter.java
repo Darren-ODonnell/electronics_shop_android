@@ -3,7 +3,6 @@ package com.example.bottomnavigationproper.Adapters;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,15 +11,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.Models.Item;
+import com.example.bottomnavigationproper.Models.ItemReview;
 import com.example.bottomnavigationproper.R;
 import com.example.bottomnavigationproper.UserSingleton;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHolder> implements View.OnCreateContextMenuListener {
@@ -57,6 +53,24 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
                 return false;
             }
         });
+
+        // Calculate the average rating for the item
+        List<ItemReview> itemReviews = item.getReviews();
+        if(itemReviews != null) {
+            double totalRating = 0;
+            for (ItemReview review : itemReviews) {
+                totalRating += review.getRating();
+            }
+            double averageRating = totalRating / itemReviews.size();
+
+            // Add a set of stars based on the average rating
+            int numStars = (int) Math.round(averageRating);
+            StringBuilder starRating = new StringBuilder();
+            for (int i = 0; i < numStars; i++) {
+                starRating.append("★");
+            }
+            holder.ratingTV.setText(starRating.toString());
+        }
     }
 
     private String formatPrice(Double price){
@@ -103,6 +117,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
         private TextView priceTV;
         private TextView imageTV;
         private TextView stockTV;
+        private TextView ratingTV;
 
 
         public InGameStatsHolder(@NonNull View itemView) {
@@ -114,6 +129,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
             categoryTV = itemView.findViewById(R.id.category_tv);
             imageTV = itemView.findViewById(R.id.image_tv);
             stockTV = itemView.findViewById(R.id.stock_tv);
+            ratingTV = itemView.findViewById(R.id.rating_tv);
 
         }
 

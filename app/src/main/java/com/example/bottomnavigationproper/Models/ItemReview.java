@@ -1,24 +1,31 @@
 package com.example.bottomnavigationproper.Models;
 
 import com.example.bottomnavigationproper.User;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 public class ItemReview {
-    private Integer id;
+    private Integer item_review_id;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference
     private User user;
 
-    private Item item;
+//    @JsonIgnoreProperties("children")
+//    @JsonBackReference
+//    private Item item;
 
     private Integer rating;
 
     private String comment;
 
     public Integer getId() {
-        return id;
+        return item_review_id;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.item_review_id = id;
     }
 
     public User getUser() {
@@ -29,13 +36,13 @@ public class ItemReview {
         this.user = user;
     }
 
-    public Item getItem() {
-        return item;
-    }
-
-    public void setItem(Item item) {
-        this.item = item;
-    }
+//    public Item getItem() {
+//        return item;
+//    }
+//
+//    public void setItem(Item item) {
+//        this.item = item;
+//    }
 
     public Integer getRating() {
         return rating;

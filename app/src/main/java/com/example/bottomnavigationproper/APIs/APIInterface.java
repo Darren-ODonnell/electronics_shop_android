@@ -16,6 +16,7 @@ import com.example.bottomnavigationproper.User;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -41,6 +42,10 @@ public interface APIInterface {
     @GET("items/list")
     Call<List<Item>> getItems(@Header("Authorization") String accessToken);
 
+//    @GET("items/list")
+//    Call<ResponseBody> getItems(@Header("Authorization") String accessToken);
+
+
     @GET("orders/list")
     Call<List<Order>> getCustomerOrders(@Header("Authorization") String accessToken);
 
@@ -51,10 +56,10 @@ public interface APIInterface {
     Call<List<Item>> search(@Header("Authorization") String accessToken,
                             @QueryMap Map<String, String> params);
 
-    @POST("orders/add")
+    @PUT("orders/add")
     Call<Order> addOrder(@Header("Authorization") String accessToken, @Body OrderModel orderModel);
 
-    @POST("itemReview/add")
+    @PUT("itemReview/add")
     Call<List<ItemReview>> addItemReview(@Header("Authorization") String accessToken,
                                          @Body ItemReviewModel itemReviewModel);
 }

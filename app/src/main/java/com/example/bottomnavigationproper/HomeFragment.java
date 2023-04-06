@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -23,6 +24,13 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.bottomnavigationproper.APIs.TokenSingleton;
 import com.example.bottomnavigationproper.Adapters.ItemAdapter;
 import com.example.bottomnavigationproper.CartCommands.AddStockCommand;
 import com.example.bottomnavigationproper.CartCommands.Command;
@@ -35,9 +43,17 @@ import com.example.bottomnavigationproper.SortingStrategy.PriceSortingStrategy;
 import com.example.bottomnavigationproper.SortingStrategy.SortingStrategy;
 import com.example.bottomnavigationproper.SortingStrategy.TitleSortingStrategy;
 import com.example.bottomnavigationproper.ViewModels.HomeViewModel;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class HomeFragment extends Fragment {
 
@@ -86,6 +102,7 @@ public class HomeFragment extends Fragment {
         });
         viewModel.getItems();
 
+//        getItems(TokenSingleton.getInstance().getBearerTokenString());
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -161,11 +178,12 @@ public class HomeFragment extends Fragment {
         favStatsRV = view.findViewById(R.id.available_items_rv);
 
         registerForContextMenu(favStatsRV);
-        adapter.setResults(recyclerItems);
-        adapter.notifyDataSetChanged();
+
 
         favStatsRV.setLayoutManager(new LinearLayoutManager(getContext()));
         favStatsRV.setAdapter(adapter);
+        adapter.setResults(recyclerItems);
+        adapter.notifyDataSetChanged();
     }
 
     public void setSpinnerList(Spinner spinner){
@@ -238,6 +256,48 @@ public class HomeFragment extends Fragment {
             return super.onContextItemSelected(item);
         }
 
+    }
+
+    public void getItems(final String token) {
+        String url = "http://192.168.100.56:8080/items/list";
+
+        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, url, null,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        try {
+                            List<Item> itemList = new ArrayList<>();
+                            for (int i = 0; i < response.length(); i++) {
+                                JSONObject jsonObject = response.getJSONObject(i);
+                                Log.d("errorMessage", jsonObject.toString());
+                                Gson gson = new Gson();
+                                Item item = gson.fromJson(jsonObject.toString(), Item.class);
+                                // set the fields of item as needed
+                                itemList.add(item);
+                            }
+                            // update itemResponseLiveData with itemList
+                        } catch (JSONException e) {
+                            // handle JSON parsing error
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // handle error response
+                    }
+                })
+        {
+            @Override
+            public Map<String, String> getHeaders() {
+                Map<String, String> headers = new HashMap<>();
+                headers.put("Authorization", token);
+                return headers;
+            }
+        };
+
+// Add the request to the RequestQueue.
+        Volley.newRequestQueue(requireContext()).add(jsonArrayRequest);
     }
 
     @Override

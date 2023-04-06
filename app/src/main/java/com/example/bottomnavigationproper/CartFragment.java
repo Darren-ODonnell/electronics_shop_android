@@ -110,7 +110,7 @@ public class CartFragment extends Fragment {
     private void initButton() {
         Button button = view.findViewById(R.id.checkoutButton);
 
-        viewModel.getSingleOrderLiveData().observe(this, new Observer<Order>() {
+        viewModel.getSingleOrderLiveData().observe(getViewLifecycleOwner(), new Observer<Order>() {
             @Override
             public void onChanged(Order order) {
                 openReviewDialog(order);
@@ -172,10 +172,10 @@ public class CartFragment extends Fragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 // Handle the submit button click here
                 ItemReviewModel review = new ItemReviewModel();
-                review.setUser(UserSingleton.getInstance().getUser());
+                review.setUser_id(UserSingleton.getInstance().getUser().getId());
                 review.setComment( commentEditText.getText().toString());
                 review.setRating(Integer.parseInt(ratingSpinner.getSelectedItem().toString()));
-                review.setItem(item);
+                review.setItem_id(item.getId());
 
                 viewModel.addReview(review);
             }

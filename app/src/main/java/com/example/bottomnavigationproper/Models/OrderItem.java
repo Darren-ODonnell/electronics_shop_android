@@ -1,10 +1,15 @@
 package com.example.bottomnavigationproper.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 public class OrderItem {
 
     private Integer id;
 
+    @JsonIgnoreProperties("children")
+    @JsonBackReference
     private Order customerOrderNo;
 
     private Item item;

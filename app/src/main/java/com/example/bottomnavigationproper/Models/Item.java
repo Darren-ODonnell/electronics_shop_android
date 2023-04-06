@@ -1,6 +1,10 @@
 package com.example.bottomnavigationproper.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import java.util.List;
 
 public class Item {
@@ -11,7 +15,10 @@ public class Item {
     private Double price;
     private String image;
     private Integer stock;
-    private List<ItemReview> itemReviews;
+
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference
+    private List<ItemReview> reviews;
 
     public Item() {
     }
@@ -72,11 +79,11 @@ public class Item {
         this.stock = stock;
     }
 
-    public List<ItemReview> getItemReviews() {
-        return itemReviews;
+    public List<ItemReview> getReviews() {
+        return reviews;
     }
 
-    public void setItemReviews(List<ItemReview> itemReviews) {
-        this.itemReviews = itemReviews;
+    public void setReviews(List<ItemReview> reviews) {
+        this.reviews = reviews;
     }
 }

@@ -3,28 +3,28 @@ package com.example.bottomnavigationproper.Models;
 import com.example.bottomnavigationproper.User;
 
 public class ItemReviewModel {
-        private User user;
-        private Item item;
+        private int user_id;
+        private int item_id;
         private Integer rating;
         private String comment;
 
     public ItemReviewModel() {
     }
 
-    public User getUser() {
-        return user;
+    public int getUser_id() {
+        return user_id;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
     }
 
-    public Item getItem() {
-        return item;
+    public int getItem_id() {
+        return item_id;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setItem_id(int item_id) {
+        this.item_id = item_id;
     }
 
     public Integer getRating() {

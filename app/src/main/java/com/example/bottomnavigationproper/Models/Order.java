@@ -1,6 +1,8 @@
 package com.example.bottomnavigationproper.Models;
 
 import com.example.bottomnavigationproper.User;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import java.util.List;
 
@@ -9,6 +11,8 @@ public class Order {
 
     private User customer;
 
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonManagedReference
     private List<OrderItem> orderItems;
 
     public Order() {

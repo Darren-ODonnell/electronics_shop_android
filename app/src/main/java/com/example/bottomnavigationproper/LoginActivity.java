@@ -102,8 +102,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-
-        viewModel.getTokenValidityLiveData().removeObservers(this);
+        if(viewModel.getTokenValidityLiveData().hasObservers())
+            viewModel.getTokenValidityLiveData().removeObservers(this);
         storeTokenAndUser(getApplicationContext());
         super.onStop();
 

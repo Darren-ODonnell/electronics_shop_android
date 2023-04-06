@@ -1,10 +1,11 @@
 package com.example.bottomnavigationproper.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderModel {
     int customer_id;
-    List<OrderItemModel> orderItemModels;
+    List<OrderItemModel> orderItemModels = new ArrayList<>();
 
     public OrderModel() {
     }

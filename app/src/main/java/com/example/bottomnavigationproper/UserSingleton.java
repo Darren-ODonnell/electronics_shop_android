@@ -1,6 +1,7 @@
 package com.example.bottomnavigationproper;
 
 import com.example.bottomnavigationproper.Models.Player;
+import com.example.bottomnavigationproper.Models.Role;
 
 public class UserSingleton {
 
@@ -26,7 +27,6 @@ public class UserSingleton {
 
 
     public boolean isAdmin() {
-        return user.getRoles().contains("ROLE_ADMIN") ||
-                user.getRoles().contains("ROLE_COACH");
+        return user.getRoles().contains("ROLE_ADMIN");
     }
 }
