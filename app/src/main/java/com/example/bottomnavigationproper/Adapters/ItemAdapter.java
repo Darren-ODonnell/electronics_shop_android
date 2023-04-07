@@ -69,7 +69,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
             for (int i = 0; i < numStars; i++) {
                 starRating.append("★");
             }
-            holder.ratingTV.setText(starRating.toString());
+            String text = starRating.toString();
+            holder.ratingTV.setText(text);
         }
     }
 

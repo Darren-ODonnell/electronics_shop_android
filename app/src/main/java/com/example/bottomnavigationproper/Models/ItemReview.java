@@ -12,9 +12,9 @@ public class ItemReview {
     @JsonManagedReference
     private User user;
 
-//    @JsonIgnoreProperties("children")
-//    @JsonBackReference
-//    private Item item;
+    @JsonIgnoreProperties("children")
+    @JsonBackReference
+    private Item item;
 
     private Integer rating;
 
@@ -36,13 +36,13 @@ public class ItemReview {
         this.user = user;
     }
 
-//    public Item getItem() {
-//        return item;
-//    }
-//
-//    public void setItem(Item item) {
-//        this.item = item;
-//    }
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
+    }
 
     public Integer getRating() {
         return rating;

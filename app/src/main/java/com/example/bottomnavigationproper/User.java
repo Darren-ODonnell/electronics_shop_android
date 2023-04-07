@@ -1,8 +1,8 @@
 package com.example.bottomnavigationproper;
 
 import com.example.bottomnavigationproper.Models.ItemReview;
+import com.example.bottomnavigationproper.Models.Role;
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,12 +10,12 @@ import java.util.List;
 public class User {
     private Integer id;
     private String accessToken;
-    private final String tokenType = "Bearer";
+    private final String type = "Bearer";
     private String username;
-    private String password;
+//    private String password;
     private String shippingAddress;
     private String paymentMethod;
-    private List<String> roles = new ArrayList<>();
+    private List<Role> roles = new ArrayList<>();
 
     @JsonBackReference
     private List<ItemReview> reviews;
@@ -40,15 +40,15 @@ public class User {
         this.accessToken = accessToken;
     }
 
-    public String getTokenType(){
-        return this.tokenType;
+    public String getType(){
+        return this.type;
     }
 
-    public List<String> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<String> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -84,12 +84,12 @@ public class User {
         this.reviews = reviews;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 }
 
