@@ -36,6 +36,7 @@ import com.example.bottomnavigationproper.CartCommands.AddStockCommand;
 import com.example.bottomnavigationproper.CartCommands.Command;
 import com.example.bottomnavigationproper.CartCommands.RemoveStockCommand;
 import com.example.bottomnavigationproper.Models.Item;
+import com.example.bottomnavigationproper.Models.ItemReview;
 import com.example.bottomnavigationproper.Models.OrderModel;
 import com.example.bottomnavigationproper.SortingStrategy.CategorySortingStrategy;
 import com.example.bottomnavigationproper.SortingStrategy.ManufacturerSortingStrategy;
@@ -60,6 +61,8 @@ public class HomeFragment extends Fragment {
     private HomeViewModel viewModel;
 
     List<Item> recyclerItems = new ArrayList<>();
+
+    List<ItemReview> itemReviews = new ArrayList<>();
 
     RecyclerView favStatsRV;
 
@@ -96,11 +99,29 @@ public class HomeFragment extends Fragment {
             public void onChanged(List<Item> items) {
                 if (items != null) {
                     recyclerItems = items;
+
+                }
+
+                if(recyclerItems != null && itemReviews != null){
+                    initView();
+                }
+            }
+        });
+
+        viewModel.getItemReviewResponseLiveData().observe(this, new Observer<List<ItemReview>>() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
+            @Override
+            public void onChanged(List<ItemReview> lists) {
+                if (lists != null) {
+                    itemReviews = lists;
+                }
+                if(recyclerItems != null && itemReviews != null){
                     initView();
                 }
             }
         });
         viewModel.getItems();
+        viewModel.getReviews();
 
 //        getItems(TokenSingleton.getInstance().getBearerTokenString());
     }
@@ -113,6 +134,7 @@ public class HomeFragment extends Fragment {
 
 
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     private void initButtons() {
@@ -183,6 +205,7 @@ public class HomeFragment extends Fragment {
         favStatsRV.setLayoutManager(new LinearLayoutManager(getContext()));
         favStatsRV.setAdapter(adapter);
         adapter.setResults(recyclerItems);
+        adapter.setReviews(itemReviews);
         adapter.notifyDataSetChanged();
     }
 
@@ -303,6 +326,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         viewModel.getItemsResponseLiveData().removeObservers(this);
+        viewModel.getItemReviewResponseLiveData().removeObservers(this);
 
         super.onStop();
 

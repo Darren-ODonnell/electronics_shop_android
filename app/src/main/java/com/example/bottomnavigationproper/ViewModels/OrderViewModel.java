@@ -45,7 +45,7 @@ public class OrderViewModel extends AndroidViewModel {
             itemResponseLiveData = itemRepository.getItemResponseLiveData();
 
             itemReviewRepository = new ItemReviewRepository();
-            itemReviewResponseLiveData = new MutableLiveData<>();
+            itemReviewResponseLiveData = itemReviewRepository.getItemReviewResponseLiveData();
         }
 
         public void getOrders(){
@@ -76,6 +76,10 @@ public class OrderViewModel extends AndroidViewModel {
 
         public void addReview(ItemReviewModel review) {
             itemReviewRepository.add(TokenSingleton.getInstance().getBearerTokenString(), review);
+        }
+
+        public LiveData<List<ItemReview>> getItemReviewLiveData(){
+            return itemReviewResponseLiveData;
         }
 
 

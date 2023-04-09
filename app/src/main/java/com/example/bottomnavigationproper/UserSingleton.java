@@ -27,6 +27,11 @@ public class UserSingleton {
 
 
     public boolean isAdmin() {
-        return user.getRoles().contains("ROLE_ADMIN");
+        for(Role role: user.getRoles()){
+            if(role.getName().equals("ROLE_ADMIN")){
+                return true;
+            }
+        }
+        return false;
     }
 }

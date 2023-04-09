@@ -52,7 +52,11 @@ public class CartFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         initStatsSelectionViewModel();
-        shoppingCart = ShoppingCartSingleton.getInstance().getShoppingCart();
+        if(!UserSingleton.getInstance().isAdmin()) {
+            shoppingCart = ShoppingCartSingleton.getInstance().getShoppingCart();
+            int id = UserSingleton.getInstance().getUser().getId();
+            shoppingCart.setCustomer_id(id);
+        }
 
     }
 
@@ -81,10 +85,12 @@ public class CartFragment extends Fragment {
             viewModel.getCustomerOrderResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Order>>() {
                 @Override
                 public void onChanged(List<Order> orders) {
-                    OrderAdapter adapter = new OrderAdapter();
-                    adapter.setResults(orders);
+                    if(orders != null) {
+                        OrderAdapter adapter = new OrderAdapter();
+                        adapter.setResults(orders);
 
-                    recyclerView.setAdapter(adapter);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             });
             viewModel.getOrders();
@@ -93,11 +99,13 @@ public class CartFragment extends Fragment {
             viewModel.getItemsResponseLiveData().observe(getViewLifecycleOwner(), new Observer<List<Item>>() {
                 @Override
                 public void onChanged(List<Item> items) {
-                    OrderItemModelAdapter adapter = new OrderItemModelAdapter();
-                    adapter.setCustomer(UserSingleton.getInstance().getUser());
-                    adapter.setResults(shoppingCart.getOrderItemModels());
-                    adapter.setItems(items);
-                    recyclerView.setAdapter(adapter);
+                    if(items != null) {
+                        OrderItemModelAdapter adapter = new OrderItemModelAdapter();
+                        adapter.setCustomer(UserSingleton.getInstance().getUser());
+                        adapter.setResults(shoppingCart.getOrderItemModels());
+                        adapter.setItems(items);
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
             });
             viewModel.getItems();
@@ -167,26 +175,49 @@ public class CartFragment extends Fragment {
 
         // Set the layout for the dialog and show it
         builder.setView(layout);
-        builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                // Handle the submit button click here
-                ItemReviewModel review = new ItemReviewModel();
-                review.setUser_id(UserSingleton.getInstance().getUser().getId());
-                review.setComment( commentEditText.getText().toString());
-                review.setRating(Integer.parseInt(ratingSpinner.getSelectedItem().toString()));
-                review.setItem_id(item.getId());
+        if(!UserSingleton.getInstance().isAdmin()) {
+            builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    // Handle the submit button click here
+                    ItemReviewModel review = new ItemReviewModel();
+                    review.setUser_id(UserSingleton.getInstance().getUser().getId());
+                    review.setComment(commentEditText.getText().toString());
+                    review.setRating(Integer.parseInt(ratingSpinner.getSelectedItem().toString()));
+                    review.setItem_id(item.getId());
 
-                viewModel.addReview(review);
-            }
-        });
+                    viewModel.getItemReviewLiveData().observe(getViewLifecycleOwner(), new Observer<List<ItemReview>>() {
+                        @Override
+                        public void onChanged(List<ItemReview> itemReviews) {
+                            shoppingCart = ShoppingCartSingleton.getInstance().emptyCart();
+                            clearCart();
+
+                        }
+                    });
+                    viewModel.addReview(review);
+                }
+            });
+        }
 
         AlertDialog dialog = builder.create();
         dialog.show();
     }
 
+    private void clearCart() {
+        if(UserSingleton.getInstance().isAdmin())
+            viewModel.getOrders();
+        else
+            viewModel.getItems();
+    }
+
     @Override
     public void onStop() {
+        if(viewModel.getItemReviewLiveData()!= null)
+            viewModel.getItemReviewLiveData().removeObservers(this);
+        if(viewModel.getSingleOrderLiveData() != null)
+            viewModel.getSingleOrderLiveData().removeObservers(this);
+        if(viewModel.getItemsResponseLiveData() != null)
+            viewModel.getItemsResponseLiveData().removeObservers(this);
         super.onStop();
 
     }

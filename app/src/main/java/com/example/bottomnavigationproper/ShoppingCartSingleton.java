@@ -66,4 +66,8 @@ public class ShoppingCartSingleton {
             }
         }
     }
+
+    public OrderModel emptyCart() {
+        return shoppingCart = new OrderModel();
+    }
 }

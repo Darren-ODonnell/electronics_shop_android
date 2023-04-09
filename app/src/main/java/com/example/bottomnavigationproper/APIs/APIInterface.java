@@ -50,7 +50,7 @@ public interface APIInterface {
     Call<List<Order>> getCustomerOrders(@Header("Authorization") String accessToken);
 
     @POST("items/update")
-    Call<List<Item>> updateItem(@Header("Authorization") String accessToken, @Body Item item);
+    Call<List<Item>> updateItem(@Header("Authorization") String accessToken, @QueryMap Map<String, Integer> params);
 
     @GET("items/search")
     Call<List<Item>> search(@Header("Authorization") String accessToken,
@@ -62,4 +62,7 @@ public interface APIInterface {
     @PUT("itemReview/add")
     Call<List<ItemReview>> addItemReview(@Header("Authorization") String accessToken,
                                          @Body ItemReviewModel itemReviewModel);
+
+    @GET("itemReview/findByItem")
+    Call<List<ItemReview>> findItemReviewsGroupedByItem(@Header("Authorization") String accessToken);
 }

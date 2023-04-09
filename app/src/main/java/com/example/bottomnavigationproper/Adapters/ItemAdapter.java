@@ -1,5 +1,6 @@
 package com.example.bottomnavigationproper.Adapters;
 
+import android.os.Build;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bottomnavigationproper.Models.Item;
@@ -17,11 +19,13 @@ import com.example.bottomnavigationproper.UserSingleton;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHolder> implements View.OnCreateContextMenuListener {
     private List<Item> results = new ArrayList<>();
     private int longPressedPosition = -1;
+    private List<ItemReview> reviews;
 
 
     @NonNull
@@ -33,6 +37,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
         return new InGameStatsHolder(itemView);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     public void onBindViewHolder(@NonNull InGameStatsHolder holder, int position) {
         Item item = results.get(position);
@@ -55,18 +60,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
         });
 
         // Calculate the average rating for the item
-        List<ItemReview> itemReviews = item.getReviews();
-        if(itemReviews != null) {
-            double totalRating = 0;
-            for (ItemReview review : itemReviews) {
-                totalRating += review.getRating();
-            }
-            double averageRating = totalRating / itemReviews.size();
+        ItemReview itemReview = findReviewForItem(item);
+        if(itemReview != null) {
 
             // Add a set of stars based on the average rating
-            int numStars = (int) Math.round(averageRating);
             StringBuilder starRating = new StringBuilder();
-            for (int i = 0; i < numStars; i++) {
+            for (int i = 0; i < itemReview.getRating(); i++) {
                 starRating.append("★");
             }
             String text = starRating.toString();
@@ -77,6 +76,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
     private String formatPrice(Double price){
         return "€" + price;
 
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private ItemReview findReviewForItem(Item item){
+        return reviews.stream()
+                .filter(review -> Objects.equals(review.getItem().getId(), item.getId()))
+                .findFirst()
+                .orElse(null);
     }
 
 
@@ -108,6 +115,10 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.InGameStatsHol
 
     public int getPosition() {
         return longPressedPosition;
+    }
+
+    public void setReviews(List<ItemReview> itemReviews) {
+        this.reviews = itemReviews;
     }
 
 

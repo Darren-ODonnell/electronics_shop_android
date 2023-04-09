@@ -1,5 +1,6 @@
 package com.example.bottomnavigationproper.Services;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -10,6 +11,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.bottomnavigationproper.APIs.APIClient;
 import com.example.bottomnavigationproper.APIs.APIInterface;
 import com.example.bottomnavigationproper.Models.Item;
+import com.example.bottomnavigationproper.Models.ItemReview;
 import com.example.bottomnavigationproper.Models.StatModel;
 import com.google.gson.Gson;
 
@@ -32,10 +34,13 @@ public class ItemRepository {
 
     private APIInterface apiInterface;
     private MutableLiveData<List<Item>> itemResponseLiveData;
+    private MutableLiveData<List<ItemReview>> itemReviewResponseLiveData;
 
 
     public ItemRepository(){
         itemResponseLiveData = new MutableLiveData<>();
+
+        itemReviewResponseLiveData = new MutableLiveData<>();
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
     }
@@ -100,10 +105,17 @@ public class ItemRepository {
         return itemResponseLiveData;
     }
 
+    public LiveData<List<ItemReview>> getItemReviewResponseLiveData(){
+        return itemReviewResponseLiveData;
+    }
+
 
     public void update(String token, Item item) {
+        Map<String, Integer> params = new HashMap<>();
+        params.put("id", item.getId());
+        params.put("stock", item.getStock());
 
-        apiInterface.updateItem(token, item)
+        apiInterface.updateItem(token, params)
                 .enqueue(new Callback<List<Item>>() {
                     @Override
                     public void onResponse(Call<List<Item>> call, Response<List<Item>> response) {
@@ -134,5 +146,20 @@ public class ItemRepository {
             }
         });
 
+    }
+
+    public void getItemReviewsGroupedByItem(String token) {
+
+        apiInterface.findItemReviewsGroupedByItem(token).enqueue(new Callback<List<ItemReview>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<ItemReview>> call, @NonNull Response<List<ItemReview>> response) {
+                itemReviewResponseLiveData.postValue(response.body());
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<ItemReview>> call, Throwable t) {
+                itemReviewResponseLiveData.postValue(null);
+            }
+        });
     }
 }
